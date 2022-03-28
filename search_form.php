@@ -13,24 +13,34 @@ if ($mysqli->connect_errno) {
 	exit();
 }
 
-$sql = "SELECT * FROM genres;";
-
-$results = $mysqli->query($sql);
-
-if (!$results) {
+// genre query
+$sql_genre = "SELECT * FROM genres;";
+$results_genre = $mysqli->query($sql_genre);
+if (!$results_genre) {
 	echo $mysqli->error;
 	exit();
 }
+$results_genre->data_seek((0));
 
-echo "Number of results: " . $results->num_rows;
+// ratings query
+$sql_rating = "SELECT * FROM ratings;";
+$results_rating = $mysqli->query($sql_rating);
+if (!$results_rating) {
+	echo $mysqli->error;
+	exit();
+}
+$results_rating->data_seek((0));
+
+
+
+$mysqli->close();
+
+// echo "Number of results: " . $results_genre->num_rows;
 
 // while($row = $results -> fetch_assoc()) {
 // 	echo "<hr>";
 // 	var_dump($row);
 // }
-
-$results->data_seek((0));
-$mysqli->close();
 
 ?>
 <!DOCTYPE html>
@@ -74,7 +84,7 @@ $mysqli->close();
 						<option value="" selected>-- All --</option>
 
 						<!-- Genre dropdown options here -->
-						<?php while ($row = $results->fetch_assoc()) : ?>
+						<?php while ($row = $results_genre->fetch_assoc()) : ?>
 							<option value="<?php echo $row["genre_id"]; ?>">
 								<?php echo $row["genre"]; ?>
 							</option>
@@ -89,7 +99,11 @@ $mysqli->close();
 						<option value="" selected>-- All --</option>
 
 						<!-- Rating dropdown options here -->
-
+						<?php while ($row = $results_rating->fetch_assoc()) : ?>
+							<option value="<?php echo $row["rating_id"]; ?>">
+								<?php echo $row["rating"]; ?>
+							</option>
+						<?php endwhile; ?>
 					</select>
 				</div>
 			</div> <!-- .form-group -->
