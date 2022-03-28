@@ -31,7 +31,32 @@ if (!$results_rating) {
 }
 $results_rating->data_seek((0));
 
+// label query
+$sql_labels = "SELECT * FROM labels;";
+$results_labels = $mysqli->query($sql_labels);
+if (!$results_labels) {
+	echo $mysqli->error;
+	exit();
+}
+$results_labels->data_seek((0));
 
+// format query
+$sql_formats = "SELECT * FROM formats;";
+$results_formats = $mysqli->query($sql_formats);
+if (!$results_formats) {
+	echo $mysqli->error;
+	exit();
+}
+$results_formats->data_seek((0));
+
+// sound query
+$sql_sounds = "SELECT * FROM sounds;";
+$results_sounds = $mysqli->query($sql_sounds);
+if (!$results_sounds) {
+	echo $mysqli->error;
+	exit();
+}
+$results_sounds->data_seek((0));
 
 $mysqli->close();
 
@@ -114,7 +139,11 @@ $mysqli->close();
 						<option value="" selected>-- All --</option>
 
 						<!-- Label dropdown options here -->
-
+						<?php while ($row = $results_labels->fetch_assoc()) : ?>
+							<option value="<?php echo $row["label_id"]; ?>">
+								<?php echo $row["label"]; ?>
+							</option>
+						<?php endwhile; ?>
 					</select>
 				</div>
 			</div> <!-- .form-group -->
@@ -125,7 +154,11 @@ $mysqli->close();
 						<option value="" selected>-- All --</option>
 
 						<!-- Format dropdown options here -->
-
+						<?php while ($row = $results_formats->fetch_assoc()) : ?>
+							<option value="<?php echo $row["format_id"]; ?>">
+								<?php echo $row["format"]; ?>
+							</option>
+						<?php endwhile; ?>
 					</select>
 				</div>
 			</div> <!-- .form-group -->
@@ -136,8 +169,11 @@ $mysqli->close();
 						<option value="" selected>-- All --</option>
 
 						<!-- Sound dropdown options here -->
-
-
+						<?php while ($row = $results_sounds->fetch_assoc()) : ?>
+							<option value="<?php echo $row["sound_id"]; ?>">
+								<?php echo $row["sound"]; ?>
+							</option>
+						<?php endwhile; ?>
 					</select>
 				</div>
 			</div> <!-- .form-group -->
