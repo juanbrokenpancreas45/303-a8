@@ -1,22 +1,41 @@
 <?php
-	// establish db connection
-	$host = '303.itpwebdev.com';
-	$user = 'johnwatt_db_user';
-	$password = '3VPHiBesSSwXQ4e';
-	$db = 'johnwatt_dvd_db';
+// establish db connection
+$host = '303.itpwebdev.com';
+$user = 'johnwatt_db_user';
+$password = '3VPHiBesSSwXQ4e';
+$db = 'johnwatt_dvd_db';
 
-	$mysqli  = new mysqli($host, $user, $password, $db);  // create instance of mysqli class
+$mysqli  = new mysqli($host, $user, $password, $db);  // create instance of mysqli class
 
-	if($mysqli -> connect_errno) {
-		// display error message if error
-		echo $mysqli -> connect_error;
-		exit();
-	}
+if ($mysqli->connect_errno) {
+	// display error message if error
+	echo $mysqli->connect_error;
+	exit();
+}
 
+$sql = "SELECT * FROM genres;";
+
+$results = $mysqli->query($sql);
+
+if (!$results) {
+	echo $mysqli->error;
+	exit();
+}
+
+echo "Number of results: " . $results->num_rows;
+
+// while($row = $results -> fetch_assoc()) {
+// 	echo "<hr>";
+// 	var_dump($row);
+// }
+
+$results->data_seek((0));
+$mysqli->close();
 
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,6 +49,7 @@
 		}
 	</style>
 </head>
+
 <body>
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item active">Search</li>
@@ -54,7 +74,11 @@
 						<option value="" selected>-- All --</option>
 
 						<!-- Genre dropdown options here -->
-
+						<?php while ($row = $results->fetch_assoc()) : ?>
+							<option value="<?php echo $row["genre_id"]; ?>">
+								<?php echo $row["genre"]; ?>
+							</option>
+						<?php endwhile; ?>
 					</select>
 				</div>
 			</div> <!-- .form-group -->
@@ -98,7 +122,7 @@
 						<option value="" selected>-- All --</option>
 
 						<!-- Sound dropdown options here -->
-						
+
 
 					</select>
 				</div>
@@ -129,13 +153,13 @@
 					<div class="row">
 						<div class="col">
 							<label class="form-check-label">
-								From: 
+								From:
 								<input type="date" class="form-control mt-2" name="release_date_from">
 							</label>
 						</div> <!-- .col -->
 						<div class="col">
 							<label class="form-check-label">
-								to: 
+								to:
 								<input type="date" class="form-control mt-2" name="release_date_to">
 							</label>
 						</div> <!-- .col -->
@@ -152,4 +176,5 @@
 		</form>
 	</div> <!-- .container -->
 </body>
+
 </html>
