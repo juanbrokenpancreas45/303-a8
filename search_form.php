@@ -7,7 +7,13 @@
 
 	$mysqli  = new mysqli($host, $user, $password, $db);  // create instance of mysqli class
 
-	
+	if($mysqli -> connect_errno) {
+		// display error message if error
+		echo $mysqli -> connect_error;
+		exit();
+	}
+
+
 ?>
 <!DOCTYPE html>
 <html>
