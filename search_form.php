@@ -60,13 +60,6 @@ $results_sounds->data_seek((0));
 
 $mysqli->close();
 
-// echo "Number of results: " . $results_genre->num_rows;
-
-// while($row = $results -> fetch_assoc()) {
-// 	echo "<hr>";
-// 	var_dump($row);
-// }
-
 ?>
 <!DOCTYPE html>
 <html>
