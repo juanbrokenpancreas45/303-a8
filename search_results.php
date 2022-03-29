@@ -12,10 +12,10 @@ if ($mysqli->connect_errno) {
 	echo $mysqli->connect_error;
 	exit();
 }
-$mysqli -> set_charset("utf8");
+$mysqli -> set_charset("utf-8");
 
 // query
-$sql = "SELECT dvd_titles.title AS title, dvd_titles.release_date AS release_date, genres.genre AS genre, ratings.rating as rating
+$sql = "SELECT dvd_titles.title AS title, dvd_titles.release_date AS release_date, genres.genre AS genre, ratings.rating as rating, dvd_title_id
 FROM dvd_titles
 JOIN genres ON dvd_titles.genre_id = genres.genre_id
 JOIN ratings ON dvd_titles.rating_id = ratings.rating_id
@@ -113,7 +113,8 @@ $mysqli->close();
 					<tbody>
 						<?php while($row = $results->fetch_assoc()) : ?>
 							<tr>
-								<td><?php echo $row["title"]; ?> </td>
+								<td> <a href="details.php?dvd_title_id=<?php echo $row['dvd_title_id']?>"><?php echo $row["title"]; ?></a> 
+							</td>
 								<td><?php echo $row["release_date"]; ?></td>
 								<td><?php echo $row["genre"]; ?></td>
 								<td><?php echo $row["rating"]; ?></td>
